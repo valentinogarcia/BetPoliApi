@@ -1,12 +1,13 @@
 import * as mongoDB from "mongodb";
 import { user } from "../models/user";
 import { ObjectId } from "mongodb";
+import { mongo } from "mongoose";
 export const DB_CONN_STRING="mongodb://localhost:27017"
 export const DB_NAME="api-apuestas"
 export const COLLECTION_USER="usuarios"
 export const COLLECTION_REPORTER="periodistas"
 
-export const collections: { user?: mongoDB.Collection } = {}
+export const collections: { user?: mongoDB.Collection, periodista?:mongoDB.Collection } = {}
 export async function DocumentsToUsers( db:mongoDB.Db):Promise<user[]> {
     const col = await db.collection(COLLECTION_USER).find().toArray();
     let users:user[]=[];
@@ -28,10 +29,11 @@ export async function connectToDatabase () {
     await client.connect();
     
     const db: mongoDB.Db = client.db(DB_NAME);
-    const paisesCollection: mongoDB.Collection = db.collection(COLLECTION_USER);
-    collections.user = paisesCollection;
-    
-    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${paisesCollection.collectionName}`);
+    const userCollections: mongoDB.Collection = db.collection(COLLECTION_USER);
+    collections.user = userCollections;
+    const periodistaCollections:mongoDB.Collection=db.collection(COLLECTION_REPORTER);
+    collections.periodista= periodistaCollections;
+    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${userCollections.collectionName}`);
     return db;
 }
 
