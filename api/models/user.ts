@@ -1,16 +1,17 @@
 import { states } from "./states"
 export class user {
-    private name:string
-    private hash:string
+    /*
+*/
+    private nombreCompleto:string
+    private fotoDni:string
     private email:string
-    private ciudad:string
+    private domicilio:string
     private dni:number
-    private edad:number
+    private fechaDeNacimiento:Date
     public state:states
-    private mayoriaDeEdad:number = 18;
 
-    constructor(iName:string,iHash:string,iEmail:string,iCiudad:string,iDni:number,iEdad:number) {
-        this.name=iName;this.hash=iHash;this.email=iEmail;this.ciudad=iCiudad;this.dni=iDni;this.edad=iEdad;this.state=states.pending       
+    constructor(iName:string,iHash:string,iEmail:string,iCiudad:string,iDni:number,iEdad:Date) {
+        this.nombreCompleto=iName;this.fotoDni=iHash;this.email=iEmail;this.domicilio=iCiudad;this.dni=iDni;this.fechaDeNacimiento=iEdad;this.state=states.pending       
     }
     
     /**
@@ -27,10 +28,6 @@ export class user {
     }
      pend(){
         this.state=states.pending
-    }
-     verifyAge() {
-        if(this.edad < this.mayoriaDeEdad){ this.deny();return false; }
-        return true;
     }
     getDNI(){
         return this.dni
